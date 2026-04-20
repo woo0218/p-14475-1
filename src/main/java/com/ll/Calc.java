@@ -4,19 +4,27 @@ package com.ll;
 
 public class Calc {
     public static int run(String expression) {
-        String[] expressionBits = expression.split(" \\+|\\- ");
-        int num1 = Integer.parseInt(expressionBits[0]);
-        int num2 = Integer.parseInt(expressionBits[1]);
+        String[] tokens = expression.split("(?= \\+| \\-| \\*)");
 
-        int result = 0;
-        for (String bit : expressionBits) {
-            result = plus(result, Integer.parseInt(bit));
+        int result = Integer.parseInt(tokens[0].trim());
+
+        for (int i = 1; i < tokens.length; i++) {
+            String token = tokens[i].trim();
+            char op = token.charAt(0);
+            int num = Integer.parseInt(token.substring(1).trim());
+
+            switch(op) {
+                case '+':
+                    result = plus(result, num);
+                    break;
+                case '-':
+                    result = minus(result, num);
+                    break;
+                case '*':
+                    result = multyply(result, num);
+                    break;
+            }
         }
-
-
-
-
-
         return result;
     }
 

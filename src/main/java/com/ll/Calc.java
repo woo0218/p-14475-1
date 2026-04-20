@@ -6,6 +6,15 @@ import java.util.List;
 
 public class Calc {
     public static int run(String expression) {
+
+        while (expression.contains("(")) {
+            int start = expression.lastIndexOf("(");
+            int end = expression.indexOf(")", start);
+            String innerExpression = expression.substring(start + 1, end);
+            int result = run(innerExpression);  // 재귀 호출
+            expression = expression.substring(0, start) + result + expression.substring(end + 1);
+        }
+
         List<Integer> numbers = new ArrayList<>();
         List<Character> operators = new ArrayList<>();
 

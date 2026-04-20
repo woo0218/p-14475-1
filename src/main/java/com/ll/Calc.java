@@ -1,30 +1,43 @@
 package com.ll;
 
 
+import java.util.ArrayList;
+import java.util.List;
 
 public class Calc {
     public static int run(String expression) {
-        String[] tokens = expression.split("(?= \\+| \\-| \\*)");
+        List<Integer> numbers = new ArrayList<>();
+        List<Character> operators = new ArrayList<>();
 
-        int result = Integer.parseInt(tokens[0].trim());
+        String[] expressionBits = expression.split(" ");
 
-        for (int i = 1; i < tokens.length; i++) {
-            String token = tokens[i].trim();
-            char op = token.charAt(0);
-            int num = Integer.parseInt(token.substring(1).trim());
-
-            switch(op) {
-                case '+':
-                    result = plus(result, num);
-                    break;
-                case '-':
-                    result = minus(result, num);
-                    break;
-                case '*':
-                    result = multyply(result, num);
-                    break;
+        for (int i = 0; i < expressionBits.length; i++) {
+            if (i % 2 == 0) {
+                numbers.add(Integer.parseInt(expressionBits[i]));
+            } else {
+                operators.add(expressionBits[i].charAt(0));
             }
         }
+
+        for (int i = 0; i < operators.size(); i++){
+            if(operators.get(i) == '*') {
+                int result = multyply(numbers.get(i), numbers.get(i + 1));
+                numbers.set(i, result);
+                numbers.remove(i + 1);
+                operators.remove(i);
+                i--;
+            }
+        }
+
+        int result = numbers.get(0);
+        for (int i = 0; i < operators.size(); i++) {
+            if (operators.get(i) == '+') {
+                result = plus(result, numbers.get(i + 1));
+            } else if (operators.get(i) == '-') {
+                result = minus(result, numbers.get(i + 1));
+            }
+        }
+
         return result;
     }
 

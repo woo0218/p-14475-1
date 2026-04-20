@@ -1,15 +1,36 @@
 package com.ll;
 
-// PR용 커밋 추가!!
+
 
 public class Calc {
     public static int run(String expression) {
-        String[] expressionBits = expression.split(" \\+ ");
-
+        String[] expressionBits = expression.split(" \\+|\\- ");
         int num1 = Integer.parseInt(expressionBits[0]);
         int num2 = Integer.parseInt(expressionBits[1]);
 
-        return num1 + num2;
+        int result = 0;
+        for (String bit : expressionBits) {
+            result = plus(result, Integer.parseInt(bit));
+        }
+
+
+
+
+
+        return result;
+    }
+
+
+    static int plus(int a, int b) {
+        return a + b;
+    }
+
+    static int minus(int a, int b) {
+        return a-b;
+    }
+
+    static int multyply(int a, int b) {
+        return a*b;
     }
 
 }
